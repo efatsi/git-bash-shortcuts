@@ -18,9 +18,8 @@ github-create() {
     invalid_credentials=1
   fi
 
-  token=`git config github.token`
-  if [ "$token" = "" ]; then
-    echo "  Could not find token, run 'git config --global github.token <token>'"
+  if [ "$GITHUB_TOKEN" = "" ]; then
+    echo "  Could not find token, make sure you add this 'export GITHUB_TOKEN=<token>' to ~/.github file & source it inside your .zshrc or .bashrc like this 'source ~/.github'. AND DON'T BACKUP THIS FILE PUBLICLY."
     invalid_credentials=1
   fi
 
@@ -29,7 +28,7 @@ github-create() {
   fi
 
   echo -n "  Creating Github repository '$repo_name' ..."
-  curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' > /dev/null 2>&1
+  curl -u "$username:$GITHUB_TOKEN" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}' > /dev/null 2>&1
   echo " done."
 
   echo -n "  Pushing local code to remote ..."
