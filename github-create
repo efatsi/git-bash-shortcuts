@@ -25,7 +25,7 @@ github-create() {
     invalid_credentials=1
   fi
 
-  if [ "$invalid_credentials" == "1" ]; then
+  if [ "$invalid_credentials" -eq "1" ]; then
     return 1
   fi
 
