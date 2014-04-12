@@ -21,7 +21,7 @@ github-create() {
 
   token=`git config github.token`
   if [ "$token" = "" ]; then
-    echo "  Could not find token, run 'git config --global github.token <token>'"
+    echo "  Could not find token, run 'mkdir -p ~/.config/git; git config --file ~/.config/git/config github.token <token>'"
     invalid_credentials=1
   fi
 
