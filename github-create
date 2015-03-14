@@ -25,6 +25,16 @@ github-create() {
     invalid_credentials=1
   fi
 
+  type=`git config github.tokentype`
+  if [ "$type" = "ssh" ]; then
+    conn_string="git@github.com:$username/$repo_name.git"
+  elif [ "$type" = "http" ]; then
+    conn_string="https://github.com/$username/$repo_name.git"
+  else
+    echo "  Either token type was not enterred correctly or is empty.\n  It must be one of 'ssh' or 'http'.\n  Run git config --global github.tokentype <ssh|http>"
+    invalid_credentials=1
+  fi
+
   if [ "$invalid_credentials" -eq "1" ]; then
     return 1
   fi
@@ -34,7 +44,7 @@ github-create() {
   echo " done."
 
   echo -n "  Pushing local code to remote ..."
-  git remote add origin git@github.com:$username/$repo_name.git > /dev/null 2>&1
+  git remote add origin $conn_string > /dev/null 2>&1
   git push -u origin master > /dev/null 2>&1
   echo " done."
 }
